@@ -1,3 +1,3 @@
-module hrszpuk.com/funkr
+module hrszpuk.com/remeta
 
 go 1.21
