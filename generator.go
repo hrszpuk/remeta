@@ -16,7 +16,10 @@ func GenerateFunctionSymbol(packageName string, function *ast.FuncDecl) string {
 	if function.Type.Results.NumFields() == 0 {
 		returnType = "void"
 	} else {
-		returnType = "" //function.Type.Results.List[0].Type
+		ident, ok := function.Type.Results.List[0].Type.(*ast.Ident)
+		if ok {
+			returnType = ident.Name
+		}
 	}
 
 	return fmt.Sprintf(
@@ -30,11 +33,17 @@ func GenerateFunctionSymbol(packageName string, function *ast.FuncDecl) string {
 }
 
 func GenerateParameterSymbol(field *ast.Field, index int) string {
+
+	returnType := ""
+	if t, ok := field.Type.(*ast.Ident); ok {
+		returnType = t.Name
+	}
+
 	return fmt.Sprintf(
 		"symbols.NewParameterSymbol(\"%s\", %d, %s)",
 		field.Names[0],
 		index,
-		GenerateGlobalDataTypeRegister(""),
+		GenerateGlobalDataTypeRegister(returnType),
 	)
 }
 
