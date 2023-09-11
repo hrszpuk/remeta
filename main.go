@@ -15,8 +15,10 @@ func main() {
 		return
 	}
 
-	var g Grabber
+	g := new(Grabber)
 	g.GrabAll(f)
 
-	fmt.Println(g.Functions)
+	for _, function := range g.Functions {
+		fmt.Println(GenerateRegisterFunction("test", &function))
+	}
 }
