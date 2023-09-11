@@ -38,6 +38,17 @@ func GenerateParameterSymbol(field *ast.Field, index int) string {
 	)
 }
 
+func GenerateParameterSymbolSlice(function *ast.FuncDecl) string {
+	output := "[]*symbols.ParameterSymbol{"
+	for i, s := range function.Type.Params.List {
+		output += GenerateParameterSymbol(s, i) + ", "
+	}
+	if function.Type.Params.NumFields() > 0 {
+		output = output[:len(output)-2]
+	}
+	output += "}"
+	return output
+}
 
 func GenerateRegisterPackage(packageName string) string {
 	return fmt.Sprintf("%s := registerPackage(\"%s\")\n", packageName, packageName)
