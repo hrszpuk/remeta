@@ -1,17 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"go/ast"
+)
 
-type Generator struct {
-}
-
-type Param struct {
-	Name string
-	Type string
-}
-
-func GenerateRegisterFunction(name string, returnType string, params []string) string {
-	fmt.Sprintf("registerFunction(")
+func GenerateRegisterFunction(packageName string, function *ast.FuncDecl) string {
+	return fmt.Sprintf("registerFunction(\"%s\", %s)", packageName, GenerateFunctionSymbol(packageName, function))
 }
 
 func GenerateRegisterPackage(packageName string) string {
