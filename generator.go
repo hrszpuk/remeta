@@ -29,6 +29,15 @@ func GenerateFunctionSymbol(packageName string, function *ast.FuncDecl) string {
 	)
 }
 
+func GenerateParameterSymbol(field *ast.Field, index int) string {
+	return fmt.Sprintf(
+		"symbols.NewParameterSymbol(\"%s\", %d, %s)",
+		field.Names[0],
+		index,
+		GenerateGlobalDataTypeRegister(""),
+	)
+}
+
 
 func GenerateRegisterPackage(packageName string) string {
 	return fmt.Sprintf("%s := registerPackage(\"%s\")\n", packageName, packageName)
