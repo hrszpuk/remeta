@@ -12,3 +12,7 @@ func GenerateRegisterFunction(packageName string, function *ast.FuncDecl) string
 func GenerateRegisterPackage(packageName string) string {
 	return fmt.Sprintf("%s := registerPackage(\"%s\")\n", packageName, packageName)
 }
+
+func GenerateGlobalDataTypeRegister(typeName string) string {
+	return fmt.Sprintf("compunit.GlobalDataTypeRegister[\"%s\"]", typeName)
+}
