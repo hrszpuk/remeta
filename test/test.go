@@ -5,6 +5,12 @@ import (
 	"log"
 )
 
+type Vector3 struct {
+	x int
+	y int
+	z int
+}
+
 var x = 1
 
 func main() int {
