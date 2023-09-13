@@ -58,27 +58,79 @@ func (v1 Vector3) Add(v2 Vector3) Vector3 {
 <td>
 
 ```go
+
 package gopackages
 
 import (
-	"bytespace.network/rerect/compunit"
-	"bytespace.network/rerect/eval_objects"
-	"bytespace.network/rerect/symbols"
-	_origin "bytespace.network/rerect/go_packages/test"
+"bytespace.network/rerect/compunit"
+"bytespace.network/rerect/eval_objects"
+"bytespace.network/rerect/symbols"
+_origin "bytespace.network/rerect/go_packages/test"
 )
 
 func LoadTest() {
 	test := registerPackage("test")
 
-	Vector3TypeSymbol := symbols.NewTypeSymbol("Vector3", []*symbols.TypeSymbol{}, symbols.CON, 0, nil)
-	Vector3Container := symbols.NewContainerSymbol(test, "Vector3", Vector3TypeSymbol)
+	Vector3TypeSymbol := symbols.NewTypeSymbol(
+		"Vector3",
+		[]*symbols.TypeSymbol{},
+		symbols.CON,
+		0,
+		nil,
+	)
 
-	Vector3Container.Fields = append(Vector3Container.Fields, symbols.NewFieldSymbol(Vector3Container, "x", compunit.GlobalDataTypeRegister["int"]))
-	Vector3Container.Fields = append(Vector3Container.Fields, symbols.NewFieldSymbol(Vector3Container, "y", compunit.GlobalDataTypeRegister["int"]))
-	Vector3Container.Fields = append(Vector3Container.Fields, symbols.NewFieldSymbol(Vector3Container, "z", compunit.GlobalDataTypeRegister["int"]))
+	Vector3Container := symbols.NewContainerSymbol(
+		test, "Vector3", Vector3TypeSymbol,
+	)
 
-	symbols.NewVMFunctionSymbol(test, "Vector3Add", compunit.GlobalDataTypeRegister["Vector3"], []*symbols.ParameterSymbol{symbols.NewParameterSymbol("v1", 0, compunit.GlobalDataTypeRegister["Vector3"])}, Vector3Add)
-	symbols.NewVMFunctionSymbol(test, "Add", compunit.GlobalDataTypeRegister["Vector3"], []*symbols.ParameterSymbol{symbols.NewParameterSymbol("v2", 0, compunit.GlobalDataTypeRegister["Vector3"])}, Add)
+	Vector3Container.Fields = append(
+		Vector3Container.Fields,
+		symbols.NewFieldSymbol(
+			Vector3Container, "x", 
+			compunit.GlobalDataTypeRegister["int"],
+		),
+	)
+	Vector3Container.Fields = append(
+		Vector3Container.Fields,
+		symbols.NewFieldSymbol(
+			Vector3Container, "y", 
+			compunit.GlobalDataTypeRegister["int"],
+		),
+	)
+	Vector3Container.Fields = append(
+		Vector3Container.Fields,
+		symbols.NewFieldSymbol(
+			Vector3Container, "z", 
+			compunit.GlobalDataTypeRegister["int"],
+		),
+	)
+
+	symbols.NewVMFunctionSymbol(
+		test,
+		"Vector3Add",
+		compunit.GlobalDataTypeRegister["Vector3"],
+		[]*symbols.ParameterSymbol{
+			symbols.NewParameterSymbol(
+				"v1",
+				0,
+				compunit.GlobalDataTypeRegister["Vector3"],
+			),
+		},
+		Vector3Add,
+	)
+	symbols.NewVMFunctionSymbol(
+		test,
+		"Add",
+		compunit.GlobalDataTypeRegister["Vector3"],
+		[]*symbols.ParameterSymbol{
+			symbols.NewParameterSymbol(
+				"v2",
+				0,
+				compunit.GlobalDataTypeRegister["Vector3"],
+			),
+		},
+		Add,
+		)
 }
 
 func Vector3Add(args []any) any {
@@ -91,7 +143,6 @@ func Vector3_Add(instance any, args []any) any {
 	v2 := args[0].(Vector3)
 	return Add(v2)
 }
-
 ```
 
 </td>
