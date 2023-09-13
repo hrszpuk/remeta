@@ -43,6 +43,7 @@ func (g *Generator) Generate() {
 	// 3. Package Registration
 	g.OutputSource += "\t" + g.GenerateRegisterPackage() + "\n"
 
+
 	// 4. Function Registration
 	for _, fn := range g.Functions {
 		g.OutputSource += "\t" + g.GenerateFunctionSymbol(&fn) + "\n"
