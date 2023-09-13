@@ -4,8 +4,10 @@ import (
 	"go/ast"
 )
 
+// Grabber "Grabs" nodes from the Go package and stores them
 type Grabber struct {
 	Functions []ast.FuncDecl
+	Variables []ast.GenDecl
 }
 
 func (g *Grabber) GrabAll(file *ast.File) {
