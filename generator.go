@@ -21,7 +21,7 @@ type Generator struct {
 func NewGenerator(g *Grabber, name string) *Generator {
 	gen := new(Generator)
 	gen.Functions = g.Functions
-	gen.Variables = g.Variables
+	gen.Imports = g.Imports
 	gen.PackageName = name
 	gen.OutputFileName = name + ".go"
 	return gen
@@ -33,8 +33,8 @@ func (g *Generator) Generate() {
 	g.OutputSource += "\n\n"
 
 	// 1. Imports
-	//g.OutputSource += g.GenerateImports()
-	//g.OutputSource += "\n\n"
+	g.OutputSource += g.GenerateImports()
+	g.OutputSource += "\n\n"
 
 	// 2. Load function
 	g.OutputSource += g.GenerateLoadFunc()
@@ -63,7 +63,7 @@ func (g *Generator) GenerateImports() string {
 	output := "import (\n"
 
 	for _, imp := range g.Imports {
-		output += "\t\"" + imp.Path.Value + "\"\n"
+		output += "\t" + imp.Path.Value + "\n"
 	}
 
 	return output + ")"
