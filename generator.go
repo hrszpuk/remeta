@@ -159,13 +159,6 @@ func (g *Generator) GenerateFunctionImplementation(function *ast.FuncDecl) strin
 		}
 	}
 
-	fmt.Print(function.Type, function.Name.String())
-	if function.Type.Results != nil {
-		fmt.Println(function.Type.Results.List[0])
-	} else {
-		fmt.Println()
-	}
-
 	GenerateFunctionCall := func(name string, args []string) (res string) {
 		res += function.Name.String() + "("
 		for i, arg := range arguments {
@@ -203,4 +196,8 @@ func (g *Generator) GenerateContainerSymbol(packageName string, st *ast.TypeSpec
 	out += "}"
 
 	return fmt.Sprintf("symbols.NewContainerSymbol(%s, \"%s\", %s)", packageName, st.Name.String(), typeSymbolName)
+}
+
+func (g *Generator) GenerateFieldSymbol(containerName, fieldName, dataType string) string {
+	return fmt.Sprintf("symbols.NewFieldSymbol(%s, \"%s\", %s)", containerName, fieldName, g.GenerateGlobalDataTypeRegister(dataType))
 }
