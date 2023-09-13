@@ -41,7 +41,14 @@ func (g *Generator) Generate() {
 	g.OutputSource += g.GenerateLoadFunc()
 
 	// 3. Package Registration
-	g.OutputSource += "\t" + g.GenerateRegisterPackage() + "\n"
+	g.OutputSource += "\t" + g.GenerateRegisterPackage() + "\n\n"
+
+	for _, con := range g.Structs {
+		name := con.Name.String()
+		containerName := name + "Container"
+		typeSymbolName := name + "TypeSymbol"
+		g.OutputSource += fmt.Sprintf("\t%s := %s\n", typeSymbolName, g.GenerateTypeSymbol(name, "symbols.CON"))
+		g.OutputSource += fmt.Sprintf("\t%s := %s\n\n", containerName, g.GenerateContainerSymbol(g.PackageName, &con, typeSymbolName))
 
 
 	// 4. Function Registration
