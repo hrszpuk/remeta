@@ -18,6 +18,15 @@ type Generator struct {
 	Imports   []ast.ImportSpec
 }
 
+func NewGenerator(g *Grabber, name string) *Generator {
+	gen := new(Generator)
+	gen.Functions = g.Functions
+	gen.Variables = g.Variables
+	gen.PackageName = name
+	gen.OutputFileName = name + ".go"
+	return gen
+}
+
 }
 
 func GenerateFunctionSymbol(packageName string, function *ast.FuncDecl) string {
