@@ -188,6 +188,11 @@ func (g *Generator) GenerateFunctionImplementation(function *ast.FuncDecl) strin
 }
 
 func (g *Generator) GenerateContainer(st *ast.TypeSpec) string {
+// typ = "symbols.CONT" // for Container
+func (g *Generator) GenerateTypeSymbol(name string, typ string) string {
+	return fmt.Sprintf("symbols.NewTypeSymbol(\"%s\", []*symbols.TypeSymbol{}, %s, 0, nil)", name, typ)
+}
+
 	out := "container " + st.Name.String() + "{\n"
 
 	for _, field := range st.Type.(*ast.StructType).Fields.List {
