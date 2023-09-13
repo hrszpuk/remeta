@@ -47,7 +47,7 @@ func (g *Generator) Generate() {
 		name := con.Name.String()
 		containerName := name + "Container"
 		typeSymbolName := name + "TypeSymbol"
-		g.OutputSource += fmt.Sprintf("\t%s := %s\n", typeSymbolName, g.GenerateTypeSymbol(name, "symbols.CON"))
+		g.OutputSource += fmt.Sprintf("\t%s := %s\n", typeSymbolName, g.GenerateTypeSymbol(name, "symbols.CONT"))
 		g.OutputSource += fmt.Sprintf("\t%s := %s\n\n", containerName, g.GenerateContainerSymbol(g.PackageName, &con, typeSymbolName))
 
 		for _, field := range con.Type.(*ast.StructType).Fields.List {
@@ -76,7 +76,7 @@ func (g *Generator) Generate() {
 }
 
 func (g *Generator) GeneratePackageDeclaration() string {
-	return fmt.Sprintf("package %s", g.PackageName)
+	return "package gopackages"
 }
 
 func (g *Generator) GenerateImports() string {
