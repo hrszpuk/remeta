@@ -79,6 +79,10 @@ func (g *Generator) GenerateRegisterFunction(packageName string, function *ast.F
 	return fmt.Sprintf("registerFunction(\"%s\", %s)", g.PackageName, g.GenerateFunctionSymbol(function))
 }
 
+func (g *Generator) GenerateRegisterContainer(packageName string, containerName string) string {
+	return fmt.Sprintf("registerContainer(\"%s\", %s)", g.PackageName, containerName)
+}
+
 func (g *Generator) GenerateFunctionSymbol(function *ast.FuncDecl) string {
 	// ReRect only currently allows for a single return type so anything returning multiple values will probably be ignored for now.
 
