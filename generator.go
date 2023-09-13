@@ -135,3 +135,49 @@ func (g *Generator) GenerateRegisterPackage() string {
 func (g *Generator) GenerateGlobalDataTypeRegister(typeName string) string {
 	return fmt.Sprintf("compunit.GlobalDataTypeRegister[\"%s\"]", typeName)
 }
+
+func (g *Generator) GenerateFunctionImplementation(function *ast.FuncDecl) string {
+	out := fmt.Sprintf("func %s(args []any) any {\n", function.Name.String())
+
+	arguments := make([]string, 0)
+
+	if function.Type.Params.NumFields() > 0 {
+		for i, p := range function.Type.Params.List {
+			out += fmt.Sprintf(
+				"\t%s := args[%d].(%s)\n",
+				p.Names[0].String(),
+				i,
+				p.Type,
+			)
+			arguments = append(arguments, p.Names[0].String())
+		}
+	}
+
+	fmt.Print(function.Type, function.Name.String())
+	if function.Type.Results != nil {
+		fmt.Println(function.Type.Results.List[0])
+	} else {
+		fmt.Println()
+	}
+
+	GenerateFunctionCall := func(name string, args []string) (res string) {
+		res += function.Name.String() + "("
+		for i, arg := range arguments {
+			res += arg
+			if i != len(arguments)-1 {
+				res += ", "
+			}
+		}
+		return res + ")\n"
+	}
+
+	if function.Type.Results == nil {
+		out += "\t" + GenerateFunctionCall(function.Name.String(), arguments) + "\treturn nil\n"
+	} else {
+		out += "\treturn " + GenerateFunctionCall(function.Name.String(), arguments)
+	}
+
+	out += "}"
+
+	return out
+}
