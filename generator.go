@@ -50,6 +50,17 @@ func (g *Generator) Generate() {
 		g.OutputSource += fmt.Sprintf("\t%s := %s\n", typeSymbolName, g.GenerateTypeSymbol(name, "symbols.CON"))
 		g.OutputSource += fmt.Sprintf("\t%s := %s\n\n", containerName, g.GenerateContainerSymbol(g.PackageName, &con, typeSymbolName))
 
+		for _, field := range con.Type.(*ast.StructType).Fields.List {
+			g.OutputSource += fmt.Sprintf(
+				"\t%s.Fields = append(%s.Fields, %s)\n",
+				containerName,
+				containerName,
+				g.GenerateFieldSymbol(containerName, field.Names[0].String(), field.Type.(*ast.Ident).Name),
+			)
+		}
+
+		g.OutputSource += "\n"
+	}
 
 	// 4. Function Registration
 	for _, fn := range g.Functions {
