@@ -27,9 +27,58 @@ func NewGenerator(g *Grabber, name string) *Generator {
 	return gen
 }
 
+func (g *Generator) Generate() {
+	// 0. Package name
+	g.OutputSource = g.GeneratePackageDeclaration()
+	g.OutputSource += "\n\n"
+
+	// 1. Imports
+	//g.OutputSource += g.GenerateImports()
+	//g.OutputSource += "\n\n"
+
+	// 2. Load function
+	g.OutputSource += g.GenerateLoadFunc()
+
+	// 3. Package Registration
+	g.OutputSource += "\t" + g.GenerateRegisterPackage() + "\n"
+
+	// 4. Function Registration
+	for _, fn := range g.Functions {
+		g.OutputSource += "\t" + g.GenerateFunctionSymbol(&fn) + "\n"
+	}
+
+	g.OutputSource += "}\n\n"
+
+	// 5. Function Implementation
+	for _, fn := range g.Functions {
+		g.OutputSource += g.GenerateFunctionImplementation(&fn) + "\n\n"
+	}
 }
 
-func GenerateFunctionSymbol(packageName string, function *ast.FuncDecl) string {
+func (g *Generator) GeneratePackageDeclaration() string {
+	return fmt.Sprintf("package %s", g.PackageName)
+}
+
+func (g *Generator) GenerateImports() string {
+	output := "import (\n"
+
+	for _, imp := range g.Imports {
+		output += "\t\"" + imp.Path.Value + "\"\n"
+	}
+
+	return output + ")"
+}
+
+// GenerateLoadFunc This doesn't generate an ending bracket. Make sure to close!
+func (g *Generator) GenerateLoadFunc() string {
+	return fmt.Sprintf("func Load%s() {\n", g.PackageName)
+}
+
+func (g *Generator) GenerateRegisterFunction(packageName string, function *ast.FuncDecl) string {
+	return fmt.Sprintf("registerFunction(\"%s\", %s)", g.PackageName, g.GenerateFunctionSymbol(function))
+}
+
+func (g *Generator) GenerateFunctionSymbol(function *ast.FuncDecl) string {
 	// ReRect only currently allows for a single return type so anything returning multiple values will probably be ignored for now.
 
 	returnType := ""
@@ -52,7 +101,7 @@ func GenerateFunctionSymbol(packageName string, function *ast.FuncDecl) string {
 	)
 }
 
-func GenerateParameterSymbol(field *ast.Field, index int) string {
+func (g *Generator) GenerateParameterSymbol(field *ast.Field, index int) string {
 
 	returnType := ""
 	if t, ok := field.Type.(*ast.Ident); ok {
@@ -67,7 +116,7 @@ func GenerateParameterSymbol(field *ast.Field, index int) string {
 	)
 }
 
-func GenerateParameterSymbolSlice(function *ast.FuncDecl) string {
+func (g *Generator) GenerateParameterSymbolSlice(function *ast.FuncDecl) string {
 	output := "[]*symbols.ParameterSymbol{"
 	for i, s := range function.Type.Params.List {
 		output += GenerateParameterSymbol(s, i) + ", "
@@ -79,10 +128,10 @@ func GenerateParameterSymbolSlice(function *ast.FuncDecl) string {
 	return output
 }
 
-func GenerateRegisterPackage(packageName string) string {
-	return fmt.Sprintf("%s := registerPackage(\"%s\")\n", packageName, packageName)
+func (g *Generator) GenerateRegisterPackage() string {
+	return fmt.Sprintf("%s := registerPackage(\"%s\")\n", g.PackageName, g.PackageName)
 }
 
-func GenerateGlobalDataTypeRegister(typeName string) string {
+func (g *Generator) GenerateGlobalDataTypeRegister(typeName string) string {
 	return fmt.Sprintf("compunit.GlobalDataTypeRegister[\"%s\"]", typeName)
 }
