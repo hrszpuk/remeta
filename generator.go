@@ -182,3 +182,15 @@ func (g *Generator) GenerateFunctionImplementation(function *ast.FuncDecl) strin
 
 	return out
 }
+
+func (g *Generator) GenerateContainer(st *ast.TypeSpec) string {
+	out := "container " + st.Name.String() + "{\n"
+
+	for _, field := range st.Type.(*ast.StructType).Fields.List {
+		out += "\t" + field.Names[0].String() + " " + field.Type.(*ast.Ident).Name + "\n"
+	}
+
+	out += "}"
+
+	return out
+}
