@@ -5,8 +5,19 @@ import (
 	"go/ast"
 )
 
-func GenerateRegisterFunction(packageName string, function *ast.FuncDecl) string {
-	return fmt.Sprintf("registerFunction(\"%s\", %s)", packageName, GenerateFunctionSymbol(packageName, function))
+// Generator Takes stored nodes and uses them to generate Go code
+type Generator struct {
+	// Meta data
+	PackageName    string
+	OutputFileName string
+	OutputSource   string
+
+	// Parser data
+	Functions []ast.FuncDecl
+	Variables []ast.GenDecl
+	Imports   []ast.ImportSpec
+}
+
 }
 
 func GenerateFunctionSymbol(packageName string, function *ast.FuncDecl) string {
