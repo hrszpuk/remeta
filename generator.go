@@ -14,7 +14,7 @@ type Generator struct {
 
 	// Parser data
 	Functions []ast.FuncDecl
-	Variables []ast.GenDecl
+	Structs   []ast.TypeSpec
 	Imports   []ast.ImportSpec
 }
 
@@ -22,6 +22,7 @@ func NewGenerator(g *Grabber, name string) *Generator {
 	gen := new(Generator)
 	gen.Functions = g.Functions
 	gen.Imports = g.Imports
+	gen.Structs = g.Structs
 	gen.PackageName = name
 	gen.OutputFileName = name + ".go"
 	return gen
