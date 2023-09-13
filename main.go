@@ -18,7 +18,7 @@ func main() {
 	g := new(Grabber)
 	g.GrabAll(f)
 
-	for _, function := range g.Functions {
-		fmt.Println(GenerateRegisterFunction("test", &function))
-	}
+	generator := NewGenerator(g, "test")
+	generator.Generate()
+	fmt.Println(generator.OutputSource)
 }
