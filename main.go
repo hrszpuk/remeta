@@ -28,6 +28,24 @@ func main() {
 		return
 	}
 
+	packagePath := flag.Arg(0)
+	outputName := flag.Arg(1)
+
+	if _, err := os.Stat(packagePath); os.IsNotExist(err) {
+		fmt.Printf("Could not find \"%s\"\n", packagePath)
+		return
+	} else if _, err := os.Stat(packagePath + "/go.mod"); os.IsNotExist(err) {
+		fmt.Printf("Could not find a Go module in \"%s\"\n", packagePath)
+		return
+	}
+
+	if !strings.HasSuffix(outputName, ".go") {
+		outputName = outputName + ".go"
+	}
+
+	fmt.Printf("Package path: %s\n", packagePath)
+	fmt.Printf("Output name: %s\n", outputName)
+
 	fset := token.NewFileSet()
 
 	f, err := parser.ParseFile(fset, "test/test.go", nil, parser.AllErrors)
