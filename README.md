@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/hrszpuk/remeta/assets/107559570/4fbf5d49-9701-43d9-b7d0-eab1f8e2ff8b" alt="remeta logo" width=200px>
+    <img src="./.github/animal-1298913_1280(1).png" alt="remeta logo" width=200px>
 </p>
 
 <p align="center">
