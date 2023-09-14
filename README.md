@@ -17,9 +17,9 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/hrszpuk/remeta/blob/main/INSTALLATION.md">Installation</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://github.com/hrszpuk/remeta/blob/main/USER_GUIDE.md">User Guide</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://github.com/hrszpuk/remeta/blob/main/CONTRIBUTING.md">Contributing</a>&nbsp;&nbsp;&nbsp;
+    <a href="https://github.com/hrszpuk/remeta/blob/master/INSTALLATION.md">Installation</a>&nbsp;&nbsp;&nbsp;
+    <a href="https://github.com/hrszpuk/remeta/blob/master/USER_GUIDE.md">User Guide</a>&nbsp;&nbsp;&nbsp;
+    <a href="https://github.com/hrszpuk/remeta/blob/master/CONTRIBUTING.md">Contributing</a>&nbsp;&nbsp;&nbsp;
 </p>
 
 
