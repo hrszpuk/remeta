@@ -48,16 +48,47 @@ func main() {
 
 	fset := token.NewFileSet()
 
-	f, err := parser.ParseFile(fset, "test/test.go", nil, parser.AllErrors)
+	packages, err := parser.ParseDir(fset, packagePath, nil, parser.AllErrors)
 	if err != nil {
-		fmt.Println(err)
+		logger.Error("%v", err)
 		return
 	}
 
-	g := new(Grabber)
-	g.GrabAll(f)
+	out := make([]string, 0)
+	for _, pkgs := range packages {
+		g := new(Grabber)
+		for _, file := range pkgs.Files {
+			g.GrabAll(file)
+		}
 
-	generator := NewGenerator(g, "test")
-	generator.Generate()
-	fmt.Println(generator.OutputSource)
+		generator := NewGenerator(g, "test")
+		generator.Generate()
+		out = append(out, generator.OutputSource)
+	}
+
+	file, err := os.Open(outputName)
+	if os.IsNotExist(err) {
+		file, err = os.Create(outputName)
+		if err != nil {
+			logger.Error("%v", err)
+			return
+		}
+	}
+	if err != nil {
+		logger.Error("%v", err)
+		return
+	}
+
+	totalN := 0
+
+	for _, content := range out {
+		n, err := file.WriteString(content)
+		if err != nil {
+			logger.Error("%v", err)
+			return
+		}
+		totalN += n
+	}
+
+	fmt.Printf("Wrote %d bytes to %s\n", totalN, outputName)
 }
