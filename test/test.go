@@ -1,29 +1,19 @@
 package test
 
-import (
-	"fmt"
-	"log"
-)
-
 type Vector3 struct {
 	x int
 	y int
 	z int
 }
 
-var x = 1
-
-func main() int {
-	var y = x + 1
-	fmt.Println("hello")
-	log.Println("test")
-	return y
+func Vector3Add(v1, v2 Vector3) Vector3 {
+	return Vector3{
+		x: v1.x + v2.x,
+		y: v1.y + v2.y,
+		z: v1.z + v2.z,
+	}
 }
 
-func testFunc1() {}
-
-func testFunc2(x int, s string) {}
-
-func testFunc3(x int, s string) any {
-	return nil
+func (v1 Vector3) Add(v2 Vector3) Vector3 {
+	return Vector3Add(v1, v2)
 }
