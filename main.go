@@ -49,10 +49,7 @@ func main() {
 	fset := token.NewFileSet()
 
 	packages, err := parser.ParseDir(fset, packagePath, nil, parser.AllErrors)
-	if err != nil {
-		logger.Error("%v", err)
-		return
-	}
+	checkErr(err)
 
 	out := make([]string, 0)
 	for _, pkgs := range packages {
@@ -69,26 +66,24 @@ func main() {
 	file, err := os.Open(outputName)
 	if os.IsNotExist(err) {
 		file, err = os.Create(outputName)
-		if err != nil {
-			logger.Error("%v", err)
-			return
-		}
+		checkErr(err)
 	}
-	if err != nil {
-		logger.Error("%v", err)
-		return
-	}
+	checkErr(err)
 
 	totalN := 0
 
 	for _, content := range out {
 		n, err := file.WriteString(content)
-		if err != nil {
-			logger.Error("%v", err)
-			return
-		}
+		checkErr(err)
 		totalN += n
 	}
 
 	fmt.Printf("Wrote %d bytes to %s\n", totalN, outputName)
+}
+
+func checkErr(err error) {
+	if err != nil {
+		logger.Error("%v", err)
+		return
+	}
 }
