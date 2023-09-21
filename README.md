@@ -9,7 +9,7 @@
 <p align="center">
 <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-GPL-green.svg"></a>
 <a href="https://github.com/hrszpuk"><img src="https://img.shields.io/github/followers/hrszpuk?style=social"></a>
-<a href="https://github.com/hrszpuk/remeta/issues"><img src="https://img.shields.io/github/issues/hrszpuk/inimod"></a>
+<a href="https://github.com/hrszpuk/remeta/issues"><img src="https://img.shields.io/github/issues/hrszpuk/remeta"></a>
 </p>
 
 <p align="center">
